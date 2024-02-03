@@ -90,7 +90,8 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
             ball.destroy()
             //add ball reset logic on succesful shot
-            this.ball.reset()
+            this.resetBall()
+            this.physics.add.collider(this.ball, this.walls);
         })
 
         // ball/wall collision
@@ -101,6 +102,19 @@ class Play extends Phaser.Scene {
 
     update() {
 
+    }
+
+    createBall() {
+        this.ball = this.physics.add.sprite(width / 2, height - height / 10, 'ball');
+        this.ball.body.setCircle(this.ball.width / 2);
+        this.ball.body.setCollideWorldBounds();
+        this.ball.body.setBounce(0.5);
+        this.ball.body.setDamping(true).setDrag(0.5);
+    }
+
+    resetBall() {
+        this.ball.destroy(); // Destroy the existing ball
+        this.createBall();   // Create a new ball
     }
 }
 /*
